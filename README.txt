@@ -1,0 +1,1 @@
+This code shows how to access a RESTful web service (Google Books), how to parse the response into JavaScript Objects, and display the books to the user. It also shows, briefly, how to use SASS to add additional functionality to CSS.
