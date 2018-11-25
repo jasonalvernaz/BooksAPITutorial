@@ -1,0 +1,29 @@
+body {
+  background-color: azure;
+}
+
+button:hover {
+  transform: scale(1.1);
+}
+
+label {
+  color: black;
+}
+label:hover {
+  transform: scale(1.1);
+}
+
+#tblOutputJSON th {
+  background-color: black;
+  color: white;
+}
+#tblOutputJSON tr {
+  background-color: azure;
+  color: black;
+}
+#tblOutputJSON tr:hover {
+  background-color: #0B3C5D;
+  color: white;
+}
+
+/*# sourceMappingURL=main.css.map */

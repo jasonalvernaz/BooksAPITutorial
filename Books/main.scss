@@ -1,0 +1,35 @@
+$text-color: black;
+$secondary-text-color: white;
+$primary-color: azure;
+$secondary-color: #0B3C5D;
+$scale: scale(1.1);
+
+body {
+    background-color: $primary-color;
+}
+
+button:hover {
+    transform: $scale;
+}
+
+label {
+    color: $text-color;
+    &:hover {
+        transform: $scale;
+    }
+}
+
+#tblOutputJSON {
+    th {
+        background-color: $text-color;
+        color: $secondary-text-color;
+    }
+    tr {
+        background-color: $primary-color;
+        color: $text-color;
+        &:hover {
+            background-color: $secondary-color;
+            color: $secondary-text-color;
+        }
+    }
+}
