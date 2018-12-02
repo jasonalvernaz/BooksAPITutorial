@@ -17,7 +17,7 @@ function searchBooks() {
 
     //Insert inputs into query params
     let yqlBaseURL = "https://query.yahooapis.com/v1/public/yql?q=";
-    let yqlQuery = "SELECT * from google.books where q='" + bookTitle.value + "' AND maxResults='" + maxResults.value + "' &env=store://datatables.org/alltableswithkeys";
+    let yqlQuery = `SELECT * from google.books where q='${bookTitle.value}' AND maxResults='${maxResults.value}' &env=store://datatables.org/alltableswithkeys`;
 
     //Request for JSON
     let reqJSON = new XMLHttpRequest();
@@ -44,34 +44,27 @@ function searchBooks() {
             });
 
             //Append header to table
-            thead += '</thead>'
+            thead += '</thead><tbody>'
             tblOutputJSON.innerHTML += thead;
 
             //Create rows for table and append to table
             booksArray.forEach(function (item) {
-
-                let tr = '<tr>'
                 
-                let td = '<td><img src=' + item.volumeInfo.imageLinks.smallThumbnail + '/></td>' +
-                        '<td>' + item.volumeInfo.title + '</td>' +
-                        '<td>' + item.volumeInfo.description + '</td>' +
-                        '<td>' + item.volumeInfo.authors + '</td>' +
-                        '<td><a target="_blank" rel="noopener noreferrer" href=' + item.volumeInfo.previewLink + '>Preview Book</a></td>' +
-                        '<td><a target="_blank" rel="noopener noreferrer" href=' + item.volumeInfo.infoLink + '>Book Info</a><td>';
+                tblOutputJSON.innerHTML += `<tr><td><img src=${item.volumeInfo.imageLinks.smallThumbnail}/></td>
+                                            <td>${item.volumeInfo.title}</td>
+                                            <td>${item.volumeInfo.description}</td>
+                                            <td>${item.volumeInfo.authors}</td>
+                                            <td><a target="_blank" rel="noopener noreferrer" href=${item.volumeInfo.previewLink}>Preview Book</a></td>
+                                            <td><a target="_blank" rel="noopener noreferrer" href=${item.volumeInfo.infoLink}>Book Info</a></td></tr>`;
                         
-                tr += td;
-                    
-                tr += '</tr>';
-
-                tblOutputJSON.innerHTML += tr;
-
             });
             
+            tblOutputJSON.innerHTML += '</tbody>';
             
         }
 
     }
 
-    reqJSON.open("GET", yqlBaseURL + yqlQuery + "&format=json", true);
+    reqJSON.open("GET", `${yqlBaseURL}${yqlQuery}&format=json`, true);
     reqJSON.send();
 }
