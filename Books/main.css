@@ -18,7 +18,7 @@ label:hover {
   color: white;
 }
 #tblOutputJSON tr {
-  background-color: azure;
+  background-color: white;
   color: black;
 }
 #tblOutputJSON tr:hover {
@@ -26,4 +26,4 @@ label:hover {
   color: white;
 }
 
-/*# sourceMappingURL=main.css.map */
+/*# sourceMappingURL=main.css.map*/
