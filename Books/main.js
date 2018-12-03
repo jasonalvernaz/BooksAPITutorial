@@ -19,52 +19,36 @@ function searchBooks() {
     let yqlBaseURL = "https://query.yahooapis.com/v1/public/yql?q=";
     let yqlQuery = `SELECT * from google.books where q='${bookTitle.value}' AND maxResults='${maxResults.value}' &env=store://datatables.org/alltableswithkeys`;
 
-    //Request for JSON
-    let reqJSON = new XMLHttpRequest();
+    //AJAX request for JSON data
+    $.ajax({
+        dataType: 'json',
+        url: `${yqlBaseURL}${yqlQuery}&format=json`,
+        type: 'GET',
+        success: (data) => {
 
-    //Get response back formatted at JSON
-    reqJSON.onreadystatechange = function () {
-
-        if (this.readyState == 4 && this.status == 200) {
-
-            let booksArray = []
-
-            let JSONText = JSON.parse(this.responseText);
-
-            //Add all books to the array
-            for (i = 0; i <= maxResults.value - 1; i++) {
-                
-                booksArray.push(JSONText.query.results.json.items[i]);
-            }
+            let books = [...data.query.results.json.items];
 
             //Create table headers
-            tableHeaders.forEach(function (item){
-                let th = '<th>' + item + '</th>';
-                thead += th;
-            });
+            thead += tableHeaders.map((header) => {
+                return `<th>${header}</th>`;
+            }).join('');
 
             //Append header to table
-            thead += '</thead><tbody>'
-            tblOutputJSON.innerHTML += thead;
+            tblOutputJSON.innerHTML += `${thead}</thead><tbody>`;
 
-            //Create rows for table and append to table
-            booksArray.forEach(function (item) {
-                
-                tblOutputJSON.innerHTML += `<tr><td><img src=${item.volumeInfo.imageLinks.smallThumbnail}/></td>
-                                            <td>${item.volumeInfo.title}</td>
-                                            <td>${item.volumeInfo.description}</td>
-                                            <td>${item.volumeInfo.authors}</td>
-                                            <td><a target="_blank" rel="noopener noreferrer" href=${item.volumeInfo.previewLink}>Preview Book</a></td>
-                                            <td><a target="_blank" rel="noopener noreferrer" href=${item.volumeInfo.infoLink}>Book Info</a></td></tr>`;
-                        
-            });
+            //Create rows and celles for table and append to table     
+            tblOutputJSON.innerHTML += books.map((book) => {
+                return `<tr><td><img src=${book.volumeInfo.imageLinks.smallThumbnail}/></td>
+                        <td>${book.volumeInfo.title}</td>
+                        <td>${book.volumeInfo.description}</td>
+                        <td>${book.volumeInfo.authors}</td>
+                        <td><a target="_blank" rel="noopener noreferrer" href=${book.volumeInfo.previewLink}>Preview Book<a/></td>
+                        <td><a target="_blank" rel="noopener noreferrer" href=${book.volumeInfo.infoLink}>Book Info</a></td></tr>`;
+            }).join(''); 
             
             tblOutputJSON.innerHTML += '</tbody>';
-            
+
         }
 
-    }
-
-    reqJSON.open("GET", `${yqlBaseURL}${yqlQuery}&format=json`, true);
-    reqJSON.send();
+    });
 }
